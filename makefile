@@ -16,6 +16,7 @@ ENGINELIBS=		-framework SDL2 				\
 
 ENGINEOBJS=		source/window/window.cpp		\
 				source/window/mouse.cpp			\
+				source/window/timer.cpp			\
 				source/io/iohelper.cpp			\
 				source/audio/audio.cpp			\
 				source/audio/sound.cpp			\
@@ -31,25 +32,7 @@ ENGINEOUT=		-o bin/libengine.dylib
 
 ENGINE=	g++ $(ENGINEOUT) $(ENGINEINCS) $(ENGINELIBS) $(ENGINEOBJS) -dynamiclib
 
-# Game
-INCS=	-Isource 								\
-		-Isource/window 						\
-		-Isource/io								\
-		-Isource/graphics 						\
-		-Isource/audio	 						\
-		-Isource/geometry 											
 
-LIBS= 	-lengine -L./bin
-
-OBJS= 	source/main.cpp 						\
-		source/simplegame.cpp		
-
-
-CXX=g++
-
-EXEC= -o bin/out
-
-$(EXEC):	$(OBJS)
+$(ENGINEOUT):	
 	$(ENGINE)
-	$(CXX) $(EXEC) $(INCS) $(LIBS) $(OBJS)
-
+	
