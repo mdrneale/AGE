@@ -19,18 +19,28 @@ Graphics * Graphics::GetGraphics()
 	return Graphics::instance;
 }
 
-void Graphics::DrawArea(Area & area, bool closed)
+void Graphics::DrawArea(Geometry::Area & area, bool closed)
 {
-	int count=0;
-	SDL_Point * points;
-	area.ToSDLPoints(points, count, closed);
-	DrawLines(points, count);
+	if (area.points.size() > 1)
+	{
+		int count=0;
+		SDL_Point * points;
+		area.ToSDLPoints(points, count, closed);
+		DrawLines(points, count);
+	}
 }
 
 void Graphics::DrawLines(SDL_Point * points, int count)
 {
-	SDL_RenderDrawLines(sdlRednerer, points, count);	
+	SDL_RenderDrawLines(sdlRenderer, points, count);	
 }
+
+
+void Graphics::SetDrawColour(float r, float g, float b, float a)
+{
+	SDL_SetRenderDrawColor(sdlRenderer, char(r*255), char(g*255), char(b*255), char(a*255));
+}
+
 
 void Graphics::DestroyGraphics()
 {
@@ -41,20 +51,32 @@ void Graphics::DestroyGraphics()
     }
 }
 
-void Graphics::Clear()
+void Graphics::Clear(float r, float g, float b, float a)
 {
-	SDL_RenderClear( sdlRednerer );
+	Uint8 ro;
+	Uint8 go;
+	Uint8 bo;
+	Uint8 ao;
+
+	int failed = SDL_GetRenderDrawColor( sdlRenderer, &ro, &go, &bo, &ao);
+
+	SDL_SetRenderDrawColor(sdlRenderer, char(r*255), char(g*255), char(b*255), char(a*255));
+	SDL_RenderClear( sdlRenderer );
+	if (!failed)
+	{
+		SDL_SetRenderDrawColor(sdlRenderer, ro, go, bo, ao);		
+	}
 }
 
 void Graphics::Present()
 {
-	SDL_RenderPresent( sdlRednerer );
+	SDL_RenderPresent( sdlRenderer );
 }
 
 Graphics::~Graphics()
 {
-	SDL_DestroyRenderer( sdlRednerer );
-	sdlRednerer = NULL;
+	SDL_DestroyRenderer( sdlRenderer );
+	sdlRenderer = NULL;
 	Font::DestroyFonts();
 	IMG_Quit();
 	TTF_Quit();
@@ -63,8 +85,8 @@ Graphics::~Graphics()
 Graphics::Graphics(SDL_Window	* sdlWindow)
 {
 	//Create renderer for window
-	sdlRednerer = SDL_CreateRenderer( sdlWindow, -1, SDL_RENDERER_ACCELERATED );
-	if( sdlRednerer == NULL )
+	sdlRenderer = SDL_CreateRenderer( sdlWindow, -1, SDL_RENDERER_ACCELERATED );
+	if( sdlRenderer == NULL )
 	{
 		printf( "Renderer could not be created! SDL Error: %s\n", SDL_GetError() );
 		GraphicsIsWorking = false;
@@ -72,7 +94,7 @@ Graphics::Graphics(SDL_Window	* sdlWindow)
 	}
 
 	//Initialize renderer color
-	if (SDL_SetRenderDrawColor( sdlRednerer, 0, 0, 0, 0 ) != 0)
+	if (SDL_SetRenderDrawColor( sdlRenderer, 0, 0, 0, 0 ) != 0)
 	{
 		printf( "Renderer could not be created! SDL Error: %s\n", SDL_GetError() );
 	}
