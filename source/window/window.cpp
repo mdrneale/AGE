@@ -2,6 +2,7 @@
 
 Window * Window::instance = NULL;
 Mouse Window::mouse;
+Keyboard Window::keyboard;
 
 Window * Window::CreateWindow(const char * title, const int width, const int height)
 {
@@ -20,17 +21,23 @@ Window * Window::GetWindow()
 bool Window::CheckInput()
 {
     SDL_Event e;
+    keyboard.Update();
     while( SDL_PollEvent( &e ) != 0 )
     {
-        if( e.type == SDL_QUIT )
+        if (e.type == SDL_KEYDOWN)
+        {
+            keyboard.KeyDown(e.key.keysym.sym);
+        } 
+        else if (e.type == SDL_KEYUP)
+        {
+            keyboard.KeyUp(e.key.keysym.sym);
+        }
+        else if( e.type == SDL_QUIT )
         {
             return false;
         }
-        else if( e.type == SDL_MOUSEMOTION || e.type == SDL_MOUSEBUTTONDOWN || e.type == SDL_MOUSEBUTTONUP )
-        {
-            mouse.Update(e);
-        }
     }
+    mouse.Update();
     return true;
 }
 void Window::DestroyWindow()

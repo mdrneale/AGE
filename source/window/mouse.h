@@ -2,6 +2,7 @@
 #define MOUSE
 
 #include "point.h"
+#include "circle.h"
 #include "SDL2/SDL.h"
 
 class Mouse
@@ -18,12 +19,19 @@ public:
 	Mouse();
 	~Mouse();
 
-	void Update(const SDL_Event &e);
+	void Update();
+	Geometry::Circle Circle();
 
-	Point currentPosition;
+	Geometry::Point currentPosition;
 	MouseStates leftClicker;
 	MouseStates rightClicker;
 	MouseStates middleClicker;
+
+private:
+	MouseStates UpdateStatePressed(MouseStates & state);
+	MouseStates UpdateStateReleased(MouseStates & state);
+	MouseStates UpdateState(MouseStates & state);
+
 };
 
 #endif

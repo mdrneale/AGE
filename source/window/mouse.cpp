@@ -1,5 +1,6 @@
 #include "mouse.h"
 #include "window.h"
+#include <stdio.h>
 
 Mouse::Mouse(): currentPosition(0,0), leftClicker(NOTTOUCHED), rightClicker(NOTTOUCHED), middleClicker(NOTTOUCHED)
 {
@@ -11,102 +12,74 @@ Mouse::~Mouse()
 
 }
 
-void Mouse::Update(const SDL_Event &e)
+Geometry::Circle Mouse::Circle()
 {
-	if( e.type == SDL_MOUSEMOTION)
+	return Geometry::Circle(currentPosition,0.0f);	
+}
+
+Mouse::MouseStates Mouse::UpdateStatePressed(Mouse::MouseStates & state)
+{
+	switch (state)
 	{
-		int x,y;
-		SDL_GetMouseState( &x, &y );
-		currentPosition.x = x / (float) Window::GetWindow()->GetWidth();
-		currentPosition.y = y / (float) Window::GetWindow()->GetHeight();
+		case CLICKED:
+			state = HELD;
+			break;
+		case NOTTOUCHED:
+		case RELEASED:
+			state = CLICKED;
+			break;
 	}
-	else if (e.type == SDL_MOUSEBUTTONDOWN || e.type == SDL_MOUSEBUTTONUP)
+	return state;
+}
+
+Mouse::MouseStates Mouse::UpdateStateReleased(Mouse::MouseStates & state)
+{
+	switch (state)
 	{
-		int buttonstate = SDL_GetMouseState( NULL, NULL);
+		case RELEASED:
+			state = NOTTOUCHED;
+			break;
+		case CLICKED:
+		case HELD:
+			state = RELEASED;
+			break;
+	}
+	return state;
+}
 
-		if (buttonstate & SDL_BUTTON(1))
-		{
-			switch (leftClicker)
-			{
-				case NOTTOUCHED:
-				case RELEASED:
-					leftClicker = CLICKED;
-					break;
-				case CLICKED:
-					leftClicker = HELD;
-					break;
-			}
-		}
-		else
-		{
-			switch (leftClicker)
-			{
-				case RELEASED:
-					leftClicker = NOTTOUCHED;
-					break;
-				case CLICKED:
-				case HELD:
-					leftClicker = RELEASED;
-					break;
-			}
+void Mouse::Update()
+{
+	SDL_PumpEvents();
 
-		}
+	int x,y;
+	int buttonstate = SDL_GetMouseState( &x, &y );
+	currentPosition.x = x / (float) Window::GetWindow()->GetWidth();
+	currentPosition.y = y / (float) Window::GetWindow()->GetHeight();
 
-		if (buttonstate & SDL_BUTTON(2))
-		{
-			switch (rightClicker)
-			{
-				case NOTTOUCHED:
-				case RELEASED:
-					rightClicker = CLICKED;
-					break;
-				case CLICKED:
-					rightClicker = HELD;
-					break;
-			}
-		}
-		else
-		{
-			switch (rightClicker)
-			{
-				case RELEASED:
-					rightClicker = NOTTOUCHED;
-					break;
-				case CLICKED:
-				case HELD:
-					rightClicker = RELEASED;
-					break;
-			}
+	if (buttonstate & SDL_BUTTON(SDL_BUTTON_LEFT))
+	{
+		UpdateStatePressed(leftClicker);
+	}
+	else
+	{
+		UpdateStateReleased(leftClicker);
+	}
 
-		}
+	if (buttonstate & SDL_BUTTON(SDL_BUTTON_RIGHT))
+	{
+		UpdateStatePressed(rightClicker);
+	}
+	else
+	{
+		UpdateStateReleased(rightClicker);
+	}
 
-		if (buttonstate & SDL_BUTTON(3))
-		{
-			switch (middleClicker)
-			{
-				case NOTTOUCHED:
-				case RELEASED:
-					middleClicker = CLICKED;
-					break;
-				case CLICKED:
-					middleClicker = HELD;
-					break;
-			}
-		}
-		else
-		{
-			switch (middleClicker)
-			{
-				case RELEASED:
-					middleClicker = NOTTOUCHED;
-					break;
-				case CLICKED:
-				case HELD:
-					middleClicker = RELEASED;
-					break;
-			}
-
-		}
-
+	if (buttonstate & SDL_BUTTON(SDL_BUTTON_MIDDLE))
+	{
+		UpdateStatePressed(middleClicker);
+	}
+	else
+	{
+		UpdateStateReleased(middleClicker);
 	}
 }

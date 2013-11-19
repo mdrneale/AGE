@@ -3,6 +3,7 @@
 
 #include "SDL2/SDL.h"
 #include "mouse.h"
+#include "keyboard.h"
 
 class Window
 {
@@ -19,6 +20,7 @@ public:
 	int 			GetHeight() 	{ return height; }
 
 	static Mouse mouse;
+	static Keyboard keyboard;
 
 private:
 	Window(const char * title, const int width, const int height);
