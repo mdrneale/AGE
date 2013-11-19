@@ -102,36 +102,6 @@ void Texture::SetTexture(Font * f, const char * text, char r, char g, char b, ch
 	SetTexture(endsurface);
 	SDL_FreeSurface(endsurface);
 	return;
-
-// split string into lines
-// w,h=0
-// for each line:
-// 	find the width and height
-// 	if width > w:
-// 		width = w
-// 	h += height
-// 	create text surface.
-// create texture of size w,h
-
-// y=0
-// for each surface:
-// 	blit text surface to texture at y
-// 	y+=surface.height
-
-// free surfaces
-
-//SDL_BlitSurface
-
-	// SDL_Color textColor = { r, g, b, a };
-	// SDL_Surface* textSurface = TTF_RenderText_Blended( f->font, text, textColor );
-	// if( textSurface == NULL )
-	// {
-	// 	printf( "Unable to render text surface! SDL_ttf Error: %s\n", TTF_GetError() );
-	// 	return;
-	// }
-	// SetTexture(textSurface);
-	// SDL_FreeSurface(textSurface);
-
 }
 
 void Texture::SetTexture(const char * filename)

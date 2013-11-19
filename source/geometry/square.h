@@ -3,23 +3,25 @@
 
 #include "circle.h"
 
-class Square
+namespace Geometry
 {
-public:
-	Square();
-	~Square();
+	class Square
+	{
+	public:
+		Square();
+		~Square();
 
-//	void Load(std::ifstream &in);
-//	void Save(std::ofstream &out);
+	//	void Load(std::ifstream &in);
+	//	void Save(std::ofstream &out);
 
-	void ViewSquare();
-	
-	bool Intersecting(const Circle &circle);
+		void ViewSquare();
+		
+		bool Intersecting(const Circle &circle);
 
-	int left;
-	int right;
-	int top;
-	int bottom;
-};
-
+		float left;
+		float right;
+		float top;
+		float bottom;
+	};
+}
 #endif
