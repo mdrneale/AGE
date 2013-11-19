@@ -1,27 +1,30 @@
 #ifndef POINT
 #define POINT
 
-class Point
+namespace Geometry
 {
-public:
-	Point(float px, float py);
-	~Point();
-	float Distance(const Point & p2);
-	float Length();
+	class Point
+	{
+	public:
+		Point(float px, float py);
+		~Point();
+		float Distance(const Point & p2);
+		float Length();
 
-	float Dot(const Point & p2);
-	Point Normalise();
-	Point Normal();
+		float Dot(const Point & p2);
+		Point Normalise();
+		Point Normal();
 
-	Point operator-(const Point & op);
-	Point operator+(const Point & op);
-	Point operator/(const Point & op);
-	Point operator*(const Point & op);
+		Point operator-(const Point & op);
+		Point operator+(const Point & op);
+		Point operator/(const Point & op);
+		Point operator*(const Point & op);
 
-	Point operator/(const float op);
-	Point operator*(const float op);
+		Point operator/(const float op);
+		Point operator*(const float op);
 
-	float x;
-	float y;
-};
+		float x;
+		float y;
+	};
+}
 #endif

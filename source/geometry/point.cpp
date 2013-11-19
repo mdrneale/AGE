@@ -1,6 +1,8 @@
 #include "point.h"
 #include <math.h>
 
+using namespace Geometry;
+
 Point::Point(float px, float py):x(px), y(py){}
 
 Point::~Point()

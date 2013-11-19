@@ -8,30 +8,32 @@
 #include "square.h"
 #include "SDL2/SDL.h"
 
-class Area
+namespace Geometry
 {
-public:
-	Area();
-	~Area();
+	class Area
+	{
+	public:
+		Area();
+		~Area();
 
-//	void Load(MapOfStrings & attributes);
-	void Load(std::ifstream & in);
-	void Save(std::ofstream & out);
+	//	void Load(MapOfStrings & attributes);
+		void Load(std::ifstream & in);
+		void Save(std::ofstream & out);
 
-	bool Intersecting(const Circle & circle);
-	bool checkpoints(Point & p1,Point & p2, const Circle & circle);
-	
-	void CalculateBoundingBox();
+		bool Intersecting(const Circle & circle);
+		bool checkpoints(Point & p1,Point & p2, const Circle & circle);
+		
+		void CalculateBoundingBox();
 
-	void ViewArea();
+		void ViewArea();
 
-	void CalculateSDLPoints();
-	void ToSDLPoints(SDL_Point *& points, int & count, bool closed = false);
+		void CalculateSDLPoints();
+		void ToSDLPoints(SDL_Point *& points, int & count, bool closed = false);
 
-	std::vector<Point*> points;
-	Square boundingbox;
+		std::vector<Point*> points;
+		Square boundingbox;
 
-	SDL_Point * sdlPoints;
-};
-
+		SDL_Point * sdlPoints;
+	};
+}
 #endif

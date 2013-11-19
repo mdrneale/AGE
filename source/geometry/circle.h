@@ -3,12 +3,15 @@
 
 #include "point.h"
 
-class Circle
+namespace Geometry
 {
-public:
-	Circle(Point point, float radius): p(point), r(radius) {};
+	class Circle
+	{
+	public:
+		Circle(Point point, float radius): p(point), r(radius) {};
 
-	Point p;
-	float r;	
-};
+		Point p;
+		float r;	
+	};
+}
 #endif

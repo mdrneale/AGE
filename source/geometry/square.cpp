@@ -1,6 +1,8 @@
 #include "square.h"
 #include <iostream>
 
+using namespace Geometry;
+
 Square::Square(){}
 Square::~Square(){}
 
