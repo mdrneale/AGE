@@ -16,6 +16,7 @@ ENGINELIBS=		-framework SDL2 				\
 
 ENGINEOBJS=		source/window/window.cpp		\
 				source/window/mouse.cpp			\
+				source/window/keyboard.cpp		\
 				source/window/timer.cpp			\
 				source/io/iohelper.cpp			\
 				source/audio/audio.cpp			\
