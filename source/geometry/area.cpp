@@ -1,7 +1,10 @@
 #include "area.h"
 #include <iostream>
+#include "window.h"
 // #include "../io/hrf.h"
 // #include "../io/temparray.h"
+
+using namespace Geometry;
 
 Area::Area(): sdlPoints(NULL)
 {
@@ -51,6 +54,11 @@ void Area::ViewArea()
 
 void Area::CalculateSDLPoints()
 {
+	if (points.size() == 0)
+	{
+		return;
+	}
+
 	if (sdlPoints != NULL)
 	{
 		delete sdlPoints;
@@ -59,14 +67,20 @@ void Area::CalculateSDLPoints()
 	sdlPoints = new SDL_Point[points.size()+1];
 	for(int a = 0; a < points.size() + 1; a++)
 	{
-		sdlPoints[a].x = points[a % points.size()]->x;
-		sdlPoints[a].y = points[a % points.size()]->y;
+		sdlPoints[a].x = points[a % points.size()]->x * Window::GetWindow()->GetWidth();
+		sdlPoints[a].y = points[a % points.size()]->y * Window::GetWindow()->GetHeight();
 	}
 
 }
 
 void Area::ToSDLPoints(SDL_Point *& p, int & count, bool closed)
 {
+	if (points.size()==0)
+	{
+		p=NULL;
+		count=0;
+		return;
+	}
 	if (sdlPoints == NULL)
 	{
 		CalculateSDLPoints();
@@ -84,7 +98,7 @@ void Area::ToSDLPoints(SDL_Point *& p, int & count, bool closed)
 void Area::CalculateBoundingBox()
 {
 	Point *p1 = points[0];
-	int lowX, highX, lowY, highY;
+	float lowX, highX, lowY, highY;
 	lowX = highX = p1->x;
 	lowY = highY = p1->y;
 
@@ -129,9 +143,13 @@ bool Area::Intersecting(const Circle &circle)
 
 bool Area::checkpoints(Point & p1,Point & p2, const Circle & circle)
 {
+//	printf("%f,%f %f,%f %f,%f \n", p1.x, p1.y, p2.x, p2.y, circle.p.x, circle.p.y );
 	Point norm = (p2 - p1).Normal();
 	Point cirpointinp1space = ((Point)circle.p) - p1;
+//	printf("%f %f\n", cirpointinp1space.x,cirpointinp1space.y);
 	float d = cirpointinp1space.Dot(norm);
+//	printf("%f\n", d);
 	if (d-circle.r <= 0) return true;
+//	printf("out\n");
 	return false;
 }
