@@ -24,7 +24,7 @@ public:
     void SetTexture(SDL_Surface * texture);
     void SetTexture(Font * f, const char * text, char r, char g, char b, char a);
 
-    void RenderTexture(float x=0, float y=0, float w=1.0f, float h=1.0f, float rot=0.0f);
+    void RenderTexture(float x=0, float y=0, float w=1.0f, float h=1.0f, float rot=0.0f, float sx=0, float sy=0, float sw=1.0f, float sh=1.0f);
 	void RenderTextureToTexture(Texture & dstTexture, float x=0, float y=0);
 
     void SetBlendMode(BlendMode mode);
