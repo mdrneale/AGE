@@ -69,6 +69,7 @@ bool Area::FromJson(const rapidjson::Value& val)
 		newpoints.push_back(new Point(x,y));
 	}
 	points = newpoints;
+	CalculateBoundingBox();
 	return true;
 }
 
