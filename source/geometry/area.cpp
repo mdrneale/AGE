@@ -1,8 +1,13 @@
 #include "area.h"
 #include <iostream>
 #include "window.h"
+#include <sstream>
 // #include "../io/hrf.h"
 // #include "../io/temparray.h"
+
+#include "rapidjson/document.h"
+#include "rapidjson/prettywriter.h"
+#include "rapidjson/stringbuffer.h"
 
 using namespace Geometry;
 
@@ -13,16 +18,58 @@ Area::Area(): sdlPoints(NULL)
 
 Area::~Area()
 {
-	// for (int a=0; a < points.size(); a++)
-	// {
-	// 	Point* p = points[a];
-	// 	delete p;
-	// }
+	DeletePoints();
+}
+
+void Area::DeletePoints()
+{
 	std::vector<Point*>::iterator p;
 	for ( p = points.begin(); p != points.end(); )
 	{
       	p = points.erase(p);
-   	}
+   	}	
+}
+
+bool Area::ToJson(rapidjson::Value& val, rapidjson::Document& doc)
+{
+	rapidjson::Document::AllocatorType& allocator = doc.GetAllocator();
+
+	val.AddMember("type", "area", allocator);
+
+	rapidjson::Value valPoints(rapidjson::kArrayType);
+	for (int i = 0; i < points.size(); i++)
+	{
+		rapidjson::Value valPoint(rapidjson::kObjectType);
+		valPoint.AddMember("x", points[i]->x, allocator);
+		valPoint.AddMember("y", points[i]->y, allocator);
+
+		valPoints.PushBack(valPoint, allocator);
+	}
+
+	val.AddMember("points", valPoints, doc.GetAllocator());
+
+	return true;
+}
+
+bool Area::FromJson(const rapidjson::Value& val)
+{
+	if (std::string("area").compare(val["type"].GetString())!=0)
+	{
+		return false;
+	}
+
+	const rapidjson::Value& valPoints = val["points"];
+
+	std::vector<Point*> newpoints;
+
+	for (rapidjson::SizeType i = 0; i < valPoints.Size(); i++)
+	{
+		float x = valPoints[i]["x"].GetDouble();
+		float y = valPoints[i]["y"].GetDouble();
+		newpoints.push_back(new Point(x,y));
+	}
+	points = newpoints;
+	return true;
 }
 
 //void Area::Load(MapOfStrings & attributes)

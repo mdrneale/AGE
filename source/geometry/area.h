@@ -7,6 +7,7 @@
 #include "circle.h"
 #include "square.h"
 #include "SDL2/SDL.h"
+#include "jsonobject.h"
 
 namespace Geometry
 {
@@ -19,6 +20,9 @@ namespace Geometry
 	//	void Load(MapOfStrings & attributes);
 		void Load(std::ifstream & in);
 		void Save(std::ofstream & out);
+
+		virtual bool ToJson(rapidjson::Value& val, rapidjson::Document& doc);
+		virtual bool FromJson(const rapidjson::Value& val);
 
 		bool Intersecting(const Circle & circle);
 		bool checkpoints(Point & p1,Point & p2, const Circle & circle);
@@ -34,6 +38,8 @@ namespace Geometry
 		Square boundingbox;
 
 		SDL_Point * sdlPoints;
+	private:
+		void DeletePoints();
 	};
 }
 #endif
