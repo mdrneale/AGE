@@ -156,8 +156,8 @@ void Texture::RenderTexture(float x, float y, float w, float h, float rot, float
 	SDL_Rect dstRect;
 	dstRect.x = (int) (x * windowHeight);
 	dstRect.y = (int) (y * windowHeight);
-	dstRect.w = (int) (w * width);
-	dstRect.h = (int) (h * height);
+	dstRect.w = (int) (w * windowHeight);
+	dstRect.h = (int) (h * windowHeight);
 
 	SDL_Rect srcRect;
 	srcRect.x = (int) (sx * width);
