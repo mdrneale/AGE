@@ -30,6 +30,11 @@ void Keyboard::Update()
 
 void Keyboard::KeyDown(int keyid)
 {
+	if (keyid < 0 || keyid >= keyCount)
+	{
+		printf("Unknown key press! %i\n", keyid);
+		return;
+	}
 	switch (keys[keyid])
 	{
 		case NOTTOUCHED:
@@ -41,6 +46,12 @@ void Keyboard::KeyDown(int keyid)
 
 void Keyboard::KeyUp(int keyid)
 {
+	if (keyid < 0 || keyid >= keyCount)
+	{
+		printf("Unknown key press! %i\n", keyid);
+		return;
+	}
+
 	switch (keys[keyid])
 	{
 		case DOWN:
