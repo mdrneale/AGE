@@ -23,27 +23,16 @@ std::vector<std::string> Split(const std::string &s, char delim)
 
 std::string LoadFileAsString(const char * filename)
 {
-	std::string ret = "";
-	std::ifstream is(filename);
-    if (is == NULL) 
+    std::ifstream in(filename, std::ios::in | std::ios::binary);
+    if (in)
     {
-    	return ret;
+        std::string contents;
+        in.seekg(0, std::ios::end);
+        contents.resize(in.tellg());
+        in.seekg(0, std::ios::beg);
+        in.read(&contents[0], contents.size());
+        in.close();
+        return(contents);
     }
-
-    // get length of file:
-    is.seekg (0, is.end);
-    int length = is.tellg();
-    is.seekg (0, is.beg);
-
-    char * buffer = new char [length];
-
-    is.read (buffer,length);
-
-    if (is)
-    {
-    	ret = buffer;
-    }
-    is.close();
-    delete[] buffer;
-  	return ret;
+    return "";
 }
