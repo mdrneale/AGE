@@ -115,7 +115,7 @@ void Area::CalculateSDLPoints()
 	sdlPoints = new SDL_Point[points.size()+1];
 	for(int a = 0; a < points.size() + 1; a++)
 	{
-		sdlPoints[a].x = points[a % points.size()]->x * Window::GetWindow()->GetWidth();
+		sdlPoints[a].x = points[a % points.size()]->x * Window::GetWindow()->GetHeight();
 		sdlPoints[a].y = points[a % points.size()]->y * Window::GetWindow()->GetHeight();
 	}
 

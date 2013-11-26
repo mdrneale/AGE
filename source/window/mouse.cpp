@@ -53,7 +53,7 @@ void Mouse::Update()
 
 	int x,y;
 	int buttonstate = SDL_GetMouseState( &x, &y );
-	currentPosition.x = x / (float) Window::GetWindow()->GetWidth();
+	currentPosition.x = x / (float) Window::GetWindow()->GetHeight();
 	currentPosition.y = y / (float) Window::GetWindow()->GetHeight();
 
 	if (buttonstate & SDL_BUTTON(SDL_BUTTON_LEFT))
