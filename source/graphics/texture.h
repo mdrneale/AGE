@@ -14,11 +14,10 @@ public:
     };
 
     Texture();
-    Texture(const Texture& other);
-    Texture(const char * filename);
+    // Texture(const Texture& other);
     Texture(Font * f, const char * text, char r, char g, char b, char a);
     Texture(SDL_Surface * texture);
-	~Texture();
+	virtual ~Texture();
 
     void SetTexture(const char * filename);
     void SetTexture(SDL_Surface * texture);

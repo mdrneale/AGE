@@ -9,12 +9,12 @@ Texture::Texture(): texture(NULL)
 {
 }
 
-Texture::Texture(const Texture& other)
-{
-	texture =other.texture;
-	width = other.width;
-	height = other.height;
-}
+// Texture::Texture(const Texture& other)
+// {
+// 	texture =&other.texture;
+// 	width = other.width;
+// 	height = other.height;
+// }
 
 // Texture& Texture::operator= (const Texture& other)
 // {
@@ -22,11 +22,6 @@ Texture::Texture(const Texture& other)
 // 	CalculateDimentions();
 //     return *this;
 // }
-
-Texture::Texture(const char * filename): texture(NULL)
-{
-	SetTexture(filename);
-}
 
 Texture::Texture(SDL_Surface * t): texture(NULL)
 {
@@ -43,6 +38,7 @@ Texture::~Texture()
 	if (texture != NULL)
 	{
 		SDL_DestroyTexture( texture );
+		texture == NULL;
 	}
 }
 
@@ -51,12 +47,12 @@ void Texture::SetTexture(Font * f, const char * text, char r, char g, char b, ch
 
 	SDL_Color textColor = { r, g, b, a };
 	std::vector<std::string> lines = Split(text, '\n');
-	int w, h = 0;
-	int fw, fh = 0;
+	int w = 0, h = 0;
+	int fw = 0, fh = 0;
 
 	for (int a=0; a < lines.size(); a++)
 	{
-		if (!TTF_SizeText((TTF_Font *)f->font, lines[a].c_str(), &w, &h))
+		if (TTF_SizeText((TTF_Font *)f->font, lines[a].c_str(), &w, &h)==0)
 		{
 			if (w > fw)
 			{
@@ -64,16 +60,22 @@ void Texture::SetTexture(Font * f, const char * text, char r, char g, char b, ch
 			}
 			fh += h;
 		}
+		else
+		{
+			printf("error calculating text size.\n");
+		}
 	}
+
+	printf("text width: %i height: %i\n", fw, fh);
 
 	SDL_Surface* endsurface = SDL_CreateRGBSurface(	0,
                                   					fw,
                                   					fh,
                                   					32,
-                                  					0,
-                                  					0,
-                                  					0,
-                                  					0);
+                                  					0xFF000000, 
+                                  					0x00FF0000, 
+                                  					0x0000FF00, 
+                                  					0x000000FF);
 	fh=0;
 	for (int a = 0; a < lines.size(); a++)
 	{
@@ -146,6 +148,11 @@ void Texture::SetTexture(SDL_Surface * t)
 	{
 		width 	= t->w;
 		height 	= t->h;
+		printf("width: %i height: %i\n", width, height);
+	}
+	else
+	{
+		printf("Invalid Texture!!!!!!!\n");
 	}
 }
 
@@ -154,16 +161,16 @@ void Texture::RenderTexture(float x, float y, float w, float h, float rot, float
 	int windowHeight = Window::GetWindow()->GetHeight();
 	
 	SDL_Rect dstRect;
-	dstRect.x = (int) (x * windowHeight);
-	dstRect.y = (int) (y * windowHeight);
-	dstRect.w = (int) (w * windowHeight);
-	dstRect.h = (int) (h * windowHeight);
+	dstRect.x = (int) ((x * windowHeight)+0.5f);
+	dstRect.y = (int) ((y * windowHeight)+0.5f);
+	dstRect.w = (int) ((w * windowHeight)+0.5f);
+	dstRect.h = (int) ((h * windowHeight)+0.5f);
 
 	SDL_Rect srcRect;
-	srcRect.x = (int) (sx * width);
-	srcRect.y = (int) (sy * height);
-	srcRect.w = (int) (sw * width);
-	srcRect.h = (int) (sh * height);
+	srcRect.x = (int) ((sx * width)	+0.0f);
+	srcRect.y = (int) ((sy * height)+0.0f);
+	srcRect.w = (int) ((sw * width)	+0.0f);
+	srcRect.h = (int) ((sh * height)+0.0f);
 
 	if (SDL_RenderCopyEx( Graphics::GetGraphics()->GetSDLRenderer(), texture, &srcRect, &dstRect, rot, NULL, SDL_FLIP_NONE ) != 0)
 	{
