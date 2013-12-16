@@ -156,7 +156,7 @@ void Texture::SetTexture(SDL_Surface * t)
 	}
 }
 
-void Texture::RenderTexture(float x, float y, float w, float h, float rot, float sx, float sy, float sw, float sh)
+void Texture::RenderTexture(float x, float y, float w, float h, float rot, float sx, float sy, float sw, float sh, bool flip)
 {
 	int windowHeight = Window::GetWindow()->GetHeight();
 	
@@ -172,7 +172,9 @@ void Texture::RenderTexture(float x, float y, float w, float h, float rot, float
 	srcRect.w = (int) ((sw * width)	+0.0f);
 	srcRect.h = (int) ((sh * height)+0.0f);
 
-	if (SDL_RenderCopyEx( Graphics::GetGraphics()->GetSDLRenderer(), texture, &srcRect, &dstRect, rot, NULL, SDL_FLIP_NONE ) != 0)
+	SDL_RendererFlip flipType = flip ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE; 
+
+	if (SDL_RenderCopyEx( Graphics::GetGraphics()->GetSDLRenderer(), texture, &srcRect, &dstRect, rot, NULL, flipType) != 0)
 	{
 		printf("Render Copy error: %s\n", SDL_GetError());
 	}
