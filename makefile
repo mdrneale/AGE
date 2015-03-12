@@ -4,10 +4,7 @@ ENGINEINCS=		-Isource/window 												\
 				-Isource/graphics 												\
 				-Isource/audio	 												\
 				-Isource/geometry 												\
-		    	-I/Library/Frameworks/SDL2.framework/Versions/A/Headers 		\
-		    	-I/Library/Frameworks/SDL2_mixer.framework/Versions/A/Headers	\
-		    	-I/Library/Frameworks/SDL2_ttf.framework/Versions/A/Headers		\
-		    	-I/Library/Frameworks/SDL2_image.framework/Versions/A/Headers
+		    	-F/Library/Frameworks
 
 ENGINELIBS=		-framework SDL2 				\
 				-framework SDL2_image 			\

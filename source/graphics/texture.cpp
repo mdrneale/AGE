@@ -1,9 +1,9 @@
 #include "texture.h"
-#include "SDL_image.h"
+#include "SDL2_image/SDL_image.h"
 #include "graphics.h"
 #include "window.h"
 #include "iohelper.h"
-#include <SDL_ttf.h>
+#include <SDL2_ttf/SDL_ttf.h>
 
 Texture::Texture(): texture(NULL)
 {
@@ -38,7 +38,7 @@ Texture::~Texture()
 	if (texture != NULL)
 	{
 		SDL_DestroyTexture( texture );
-		texture == NULL;
+		texture = NULL;
 	}
 }
 

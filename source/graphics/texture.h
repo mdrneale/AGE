@@ -1,7 +1,7 @@
 #ifndef TEXTURE
 #define TEXTURE
 
-#include "SDL2/SDL.h"
+#include <SDL2/SDL.h>
 #include "font.h"
 
 class Texture

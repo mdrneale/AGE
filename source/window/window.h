@@ -1,7 +1,7 @@
 #ifndef ENGINEWINDOW
 #define ENGINEWINDOW
 
-#include "SDL2/SDL.h"
+#include <SDL2/SDL.h>
 #include "mouse.h"
 #include "keyboard.h"
 

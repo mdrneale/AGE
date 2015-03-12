@@ -6,7 +6,7 @@
 #include "point.h"
 #include "circle.h"
 #include "square.h"
-#include "SDL2/SDL.h"
+#include <SDL2/SDL.h>
 #include "jsonobject.h"
 
 namespace Geometry
