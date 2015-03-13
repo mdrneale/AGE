@@ -12,6 +12,7 @@ public:
 
     void Play(float volume=1.0f);
     void Stop(float fadetime=0.0f);
+    static Sound Play(const char * filename, float volume=1.0f);
     static void StopAll(float fadetime=0.0f);
 
     int channel;

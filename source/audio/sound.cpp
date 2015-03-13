@@ -26,6 +26,13 @@ void Sound::Play(float volume)
 	Mix_Volume(channel, (int) (MIX_MAX_VOLUME * volume));
 }
 
+Sound Sound::Play(const char * filename, float volume)
+{
+	Sound s = Sound(filename);
+	s.Play(volume);
+	return s;
+}
+
 void Sound::Stop(float fadetime)
 {
 	Mix_FadeOutChannel(channel, (int) ( fadetime * 1000));
