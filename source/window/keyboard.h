@@ -21,8 +21,17 @@ public:
     void KeyDown(int keyid);
 	void KeyUp(int keyid);
 
+	int NormaliseKeyID(int keyid);
+
 	static const int keyCount = 323;
 	keyStates keys[keyCount];
+	enum KEY
+	{
+		KRIGHT 	= 319,
+		KLEFT	= 320,
+		KUP 	= 322,
+		KDOWN 	= 321
+	};
 };
 
 #endif
